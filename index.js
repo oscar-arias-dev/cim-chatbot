@@ -28,7 +28,9 @@ const getResponsive = async (fleetName = null) => {
     if (!response.ok) return "Flota no disponible.\nBuen día.\nGracias por contactar al equipo CIM.\n¿En qué puedo ayudar?\n1: Consulta de Responisva\n2: Ageda de pruebas";
     const json = await response?.json() ?? null;
     if (!json || !Array.isArray(json) || json?.length === 0) return "Flota no disponible\nBuen día.\nGracias por contactar al equipo CIM.\n¿En qué puedo ayudar?\n1: Consulta de Responisva\n2: Ageda de pruebas";
-    return `La responsiva del cliente ${json?.[0]?.fleetdocument} es:\n${json?.[0]?.pdfurl}`;
+    const fleetNameUrl = json?.[0]?.fleetdocument ?? "~";
+    const formattedUrl = json?.[0]?.pdfurl?.replace(/ /g, "%20") ?? "~";
+    return `La responsiva del cliente ${fleetNameUrl} es:\n${formattedUrl}`;
 }
 
 app.use(express.json());
